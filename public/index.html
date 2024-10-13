@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vspaces.io - Video Game Networking & Community Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: black;
+            color: white;
+            overflow: hidden;
+        }
+        /* Animated Background - Particle Animation */
+        #animatedBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            background: black;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: white;
+            border-radius: 50%;
+            animation: moveParticles 20s linear infinite;
+            opacity: 0.8;
+        }
+        @keyframes moveParticles {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 10px)) translateX(calc(50vw - 25px));
+                opacity: 0.2;
+            }
+        }
+        /* Form Styling */
+        form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transform: scale(1);
+            opacity: 1;
+            z-index: 1;
+        }
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            outline: none;
+            padding: 1rem;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 1rem;
+            transition: background 0.3s ease;
+        }
+        input:focus {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        button {
+            transform: scale(1);
+            transition: transform 0.2s ease;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div id="animatedBackground"></div>
+    
+    <!-- Header -->
+    <header class="w-full p-4 flex justify-between items-center" style="z-index: 1;">
+        <h1 class="text-3xl font-bold">vspaces.io</h1>
+    </header>
+    
+    <div id="wrapper" class="min-h-screen flex flex-col items-center justify-center p-4" style="position: relative; z-index: 1;">
+        <!-- Content Container -->
+        <div id="mainContent" class="text-center animate__animated animate__fadeIn">
+            <h1 class="text-6xl font-bold mb-4">vspaces.io</h1>
+            <p class="text-xl max-w-md mx-auto mb-8">Join the ultimate video game networking platform - Connect, share, and grow your gaming community today!</p>
+            
+            <!-- Call to Action Buttons -->
+            <div class="mb-8">
+                <button id="signUpBtn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full m-2 transition duration-500">Sign Up</button>
+                <button id="learnMoreBtn" class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-full m-2 transition duration-500">Learn More</button>
+            </div>
+        </div>
+        
+        <!-- Sign Up Content -->
+        <div id="signUpContent" class="hidden text-center">
+            <h2 class="text-4xl font-bold mb-4 animate__animated animate__fadeIn">Create Your Account</h2>
+            <p class="text-lg max-w-md mx-auto mb-8 animate__animated animate__fadeIn">Sign up now to join the community and start connecting with gamers worldwide.</p>
+            <form class="max-w-md mx-auto animate__animated">
+                <input type="text" placeholder="Username" class="w-full" required>
+                <input type="email" placeholder="Email" class="w-full" required>
+                <input type="password" placeholder="Password" class="w-full" required>
+                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full transition duration-500 mt-4">Sign Up</button>
+            </form>
+            <button id="backToMain1" class="mt-8 text-gray-400 hover:text-white transition duration-500">Back</button>
+        </div>
+        
+        <!-- Learn More Content -->
+        <div id="learnMoreContent" class="hidden text-center">
+            <h2 class="text-4xl font-bold mb-4 animate__animated animate__fadeIn">Learn More About vspaces.io</h2>
+            <p class="text-lg max-w-md mx-auto mb-8 animate__animated animate__fadeIn">vspaces.io is a social platform that focuses on connecting video game enthusiasts. Engage in discussions, find new friends, and build your gaming network today.</p>
+            <button id="backToMain2" class="mt-8 text-gray-400 hover:text-white transition duration-500">Back</button>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="w-full p-4 text-center mt-8" style="position: relative; z-index: 1;">
+        <p class="text-sm">&copy; 2024 vspaces.io. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        $(document).ready(function() {
+            // Create particles for animated background
+            for (let i = 0; i < 100; i++) {
+                let particle = $('<div class="particle"></div>');
+                let x = Math.floor(Math.random() * $(window).width());
+                let y = Math.floor(Math.random() * $(window).height());
+                let duration = Math.random() * 20 + 10;
+                particle.css({
+                    left: x,
+                    top: -y,
+                    animationDuration: duration + 's',
+                });
+                $('#animatedBackground').append(particle);
+            }
+
+            // Smooth Page Transitions using GSAP
+            $('#signUpBtn').on('click', function() {
+                gsap.to('#mainContent', { duration: 0.5, x: '-100%', opacity: 0, ease: 'power4.inOut', onComplete: function() {
+                    $('#mainContent').hide();
+                    $('#signUpContent').show();
+                    gsap.fromTo('#signUpContent', { x: '100%', opacity: 0 }, { duration: 0.5, x: '0%', opacity: 1, ease: 'power4.inOut' });
+                }});
+            });
+
+            $('#learnMoreBtn').on('click', function() {
+                gsap.to('#mainContent', { duration: 0.5, x: '-100%', opacity: 0, ease: 'power4.inOut', onComplete: function() {
+                    $('#mainContent').hide();
+                    $('#learnMoreContent').show();
+                    gsap.fromTo('#learnMoreContent', { x: '100%', opacity: 0 }, { duration: 0.5, x: '0%', opacity: 1, ease: 'power4.inOut' });
+                }});
+            });
+
+            // Back Buttons
+            $('#backToMain1, #backToMain2').on('click', function() {
+                let currentContent = $(this).closest('div');
+                gsap.to(currentContent, { duration: 0.5, x: '-100%', opacity: 0, ease: 'power4.inOut', onComplete: function() {
+                    currentContent.hide();
+                    $('#mainContent').show();
+                    gsap.fromTo('#mainContent', { x: '100%', opacity: 0 }, { duration: 0.5, x: '0%', opacity: 1, ease: 'power4.inOut' });
+                }});
+            });
+        });
+    </script>
+</body>
+</html>
